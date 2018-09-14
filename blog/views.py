@@ -34,3 +34,15 @@ def post_model_detail_view(request, id=None):
 	}
 	template = "blog/detail-view.html"
 	return render(request, template, context)
+
+def post_model_delete_view(request, id=None):
+	obj = get_object_or_404(PostModel, id=id)
+	if request.method == 'POST':
+		template = "blog/delete-view.html"
+		obj.delete()
+		return HttpResponse('post deleted!')
+	context = {
+		"object": obj
+	}
+	template = 'blog/delete-view.html'
+	return render(request, template, context)
