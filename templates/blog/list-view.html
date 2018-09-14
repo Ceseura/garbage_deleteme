@@ -3,5 +3,6 @@
 {% for object in object_list %}
 <li>
 	<a href='/blog/{{object.id}}'> {{object.title }}</a>
+	<a href='/blog/{{object.id}}/update'> Update me </a>
 </li>
 {% endfor %}
