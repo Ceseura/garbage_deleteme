@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from .models import PostModel
 from .forms import PostModelForm
@@ -20,6 +20,7 @@ def post_model_create_view(request):
 		"form": form
 	}
 	if form.is_valid():
+		print("create")
 		obj = form.save(commit=False)
 		obj.save()
 		context = {
@@ -45,4 +46,19 @@ def post_model_delete_view(request, id=None):
 		"object": obj
 	}
 	template = 'blog/delete-view.html'
+	return render(request, template, context)
+
+def post_model_update_view(request, id=None):
+	print("update view")
+	template="blog/update-view.html"
+	obj = get_object_or_404(PostModel, id=id)
+	form = PostModelForm(request.POST or None, initial={'title': obj.title, 'content': obj.content}, instance=obj)
+	context = {
+		"form": form
+	}
+
+	if form.is_valid():
+		print("test")
+		form.save()
+		return redirect("/blog")
 	return render(request, template, context)
